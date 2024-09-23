@@ -21,29 +21,35 @@ function App() {
       if (firstNumber==null){  
         // Je verifie que mon caractere est un point 
       setFirstNumber(charToAdd);
+      setTotal(charToAdd);
     } else{
       if (charToAdd == "."){
         // Verifie que mon firstNumber ne contient pas de point
         if (!firstNumber.toString().includes(".")){
           setFirstNumber(firstNumber+''+charToAdd);
+          setTotal(total+''+charToAdd);
         }
         // Je fais mon setNumber si mon caractere n'est pas un point 
       } else{
         setFirstNumber(firstNumber+''+charToAdd);
+        setTotal(total+''+charToAdd);
       }
     }
   } else{
     if (secondNumber==null){
       setSecondNumber(charToAdd);
+      setTotal(total+''+charToAdd);
     } else{
       if (charToAdd == "."){
         // Verifie que mon firstNumber ne contient pas de point
         if (!secondNumber.toString().includes(".")){
           setSecondNumber(secondNumber+''+charToAdd);
+          setTotal(total+''+charToAdd);
         }
         // Je fais mon setNumber si mon caractere n'est pas un point 
       } else{
         setSecondNumber(secondNumber+''+charToAdd);
+        setTotal(total+''+charToAdd);
       }
     }
   }
@@ -53,21 +59,55 @@ const calculate=()=>{
   switch(operator){
     case "+":
       setTotal(parseFloat(firstNumber) + parseFloat(secondNumber));
+      setFirstNumber(parseFloat(firstNumber) + parseFloat(secondNumber));
+      setSecondNumber(null);
+      setOperator(null);
       break;
     case "-":
       setTotal(parseFloat(firstNumber) - parseFloat(secondNumber));
+      setFirstNumber(parseFloat(firstNumber) - parseFloat(secondNumber));
+      setSecondNumber(null);
+      setOperator(null);
       break;
     case "*":
       setTotal(parseFloat(firstNumber) * parseFloat(secondNumber));
+      setFirstNumber(parseFloat(firstNumber) * parseFloat(secondNumber));
+      setSecondNumber(null);
+      setOperator(null);
       break;
     case "/":
-      setTotal(parseFloat(firstNumber) / parseFloat(secondNumber));
+      if (secondNumber != "0"){
+        setTotal(parseFloat(firstNumber) / parseFloat(secondNumber));
+        setFirstNumber(parseFloat(firstNumber) / parseFloat(secondNumber));
+        setSecondNumber(null);
+        setOperator(null);
+      }else{
+        setTotal("Erreur")
+      }
       break;
     case "%":
-      setTotal(parseFloat(firstNumber) % parseFloat(secondNumber));
+      if (secondNumber != "0"){
+        setTotal(parseFloat(firstNumber) % parseFloat(secondNumber));
+        setFirstNumber(parseFloat(firstNumber) % parseFloat(secondNumber));
+        setSecondNumber(null);
+        setOperator(null);
+      }else{
+        setTotal("Erreur")
+      }
+      break;
+    default:
+      console.log("Calcul impossible");
       break;
   }
 }
+
+const checkIfOperatorIsInTotal=(charactere)=>{
+  if (!total.toString().includes('%')&& !total.toString().includes('/')&& !total.toString().includes('*')
+    && !total.toString().includes('+')&& !total.toString().includes('-')) {
+    setTotal(total+charactere);
+  }
+}
+
 
   return  <>
     <NavBarComponents />
@@ -96,26 +136,26 @@ const calculate=()=>{
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center'>
       <Button variant="outline-secondary" className="col-6">AC</Button>{' '}
-      <Button variant="outline-secondary"className="col-3"onClick={()=>{setOperator('%')}}>%</Button>{' '}
-      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('/')}}>/</Button>{' '}
+      <Button variant="outline-secondary"className="col-3"onClick={()=>{setOperator('%');checkIfOperatorIsInTotal("%")}}>%</Button>{' '}
+      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('/');checkIfOperatorIsInTotal("/")}}>/</Button>{' '}
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center mb-2'>
       <Button variant="outline-secondary" className="col-3" onClick={()=>{handleChange(7)}}>7</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(8)}}>8</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(9)}}>9</Button>{' '}
-      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('+')}}>+</Button>{' '}
+      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('+');checkIfOperatorIsInTotal("+")}}>+</Button>{' '}
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center mb-2'>
       <Button variant="outline-secondary" className="col-3"onClick={()=>{handleChange(4)}}>4</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(5)}}>5</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(6)}}>6</Button>{' '}
-      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('-')}}>-</Button>{' '}
+      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('-');checkIfOperatorIsInTotal("-")}}>-</Button>{' '}
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center mb-2'>
       <Button variant="outline-secondary" className="col-3"onClick={()=>{handleChange(1)}}>1</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(2)}}>2</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(3)}}>3</Button>{' '}
-      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('*')}}>*</Button>{' '}
+      <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('*');checkIfOperatorIsInTotal("*")}}>*</Button>{' '}
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center'>
       {/* <Button variant="outline-warning">7</Button>{' '} */}
