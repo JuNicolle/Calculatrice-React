@@ -108,6 +108,23 @@ const checkIfOperatorIsInTotal=(charactere)=>{
   }
 }
 
+const reset=()=>{
+  setFirstNumber(null);
+  setSecondNumber (null);
+  setOperator(null);
+  setTotal(0);
+}
+
+const deleteChar=()=>{
+  if (secondNumber!=null){
+    setSecondNumber(secondNumber.toString().slice(0,-1));
+  } else if (operator != null){
+    setOperator(null);
+    }else{
+      setFirstNumber(firstNumber.toString().slice(0,-1))
+    }
+  setTotal(total.toString().slice(0,-1));
+}
 
   return  <>
     <NavBarComponents />
@@ -119,9 +136,7 @@ const checkIfOperatorIsInTotal=(charactere)=>{
 
     <ButtonComponent classN='grey' functionToDo={()=>{setCount(count+10)}} text='+10'/>
     <ButtonComponent classN='orangeRed' functionToDo={()=>{setCount(count+20)}} text='+20'/> */}
-    {firstNumber}
-    {operator}
-    {secondNumber}
+   
 
     <div className='d-flex flex-column align-items-center mt-3 gap-2'>
       <div className="col-6">
@@ -135,7 +150,7 @@ const checkIfOperatorIsInTotal=(charactere)=>{
       </InputGroup>
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center'>
-      <Button variant="outline-secondary" className="col-6">AC</Button>{' '}
+      <Button variant="outline-secondary" className="col-6" onClick={reset}>AC</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{setOperator('%');checkIfOperatorIsInTotal("%")}}>%</Button>{' '}
       <Button variant="outline-info"className="col-3"onClick={()=>{setOperator('/');checkIfOperatorIsInTotal("/")}}>/</Button>{' '}
       </div>
@@ -159,7 +174,7 @@ const checkIfOperatorIsInTotal=(charactere)=>{
       </div>
       <div className='col-6 d-flex gap-3 justify-content-center'>
       {/* <Button variant="outline-warning">7</Button>{' '} */}
-      <Button variant="outline-danger"className="col-3">Delete</Button>{' '}
+      <Button variant="outline-danger"className="col-3" onClick={deleteChar}>Delete</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(0)}}>0</Button>{' '}
       <Button variant="outline-secondary"className="col-3"onClick={()=>{handleChange(".")}}>.</Button>{' '}   
       <Button variant="outline-success" className="col-3" onClick={calculate}>=</Button>{' '}
